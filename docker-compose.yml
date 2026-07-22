@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: fire-surveillance-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=fire-surveillance
+    networks:
+      - fire-surveillance-network
+
+  # Backend API (Node.js)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fire-surveillance-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/fire-surveillance
+      # ⚠️ CHANGE THIS before hosting — use a 32+ char random secret!
+      - JWT_SECRET=${JWT_SECRET:-CHANGE_ME_USE_A_STRONG_RANDOM_SECRET_32CHARS}
+      - YOLO_SERVICE_URL=http://yolo-service:8000
+      # ⚠️ Set this to your actual hosted frontend domain
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    volumes:
+      - uploads_data:/app/uploads
+    networks:
+      - fire-surveillance-network
+
+  # Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fire-surveillance-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      # ⚠️ Set these to your actual hosted backend domain before building
+      - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:5000/api}
+      - REACT_APP_SOCKET_URL=${REACT_APP_SOCKET_URL:-http://localhost:5000}
+    depends_on:
+      - backend
+    networks:
+      - fire-surveillance-network
+
+  # YOLO Service (Python/FastAPI)
+  yolo-service:
+    build:
+      context: ./yolo-service
+      dockerfile: Dockerfile
+    container_name: fire-surveillance-yolo
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - BACKEND_URL=http://backend:5000
+      - MODEL_INFERENCE_CONFIDENCE=0.45
+      - MIN_DETECTION_BOX_AREA=800
+    volumes:
+      - models_data:/app/trained_models
+      - uploads_data:/app/uploads
+    networks:
+      - fire-surveillance-network
+
+volumes:
+  mongodb_data:
+  uploads_data:
+  models_data:
+
+networks:
+  fire-surveillance-network:
+    driver: bridge

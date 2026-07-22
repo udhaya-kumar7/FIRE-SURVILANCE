@@ -1,0 +1,407 @@
+/* ===========================
+   Premium Fire Surveillance UI
+   Global Styles & Design System
+   =========================== */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ===========================
+   CSS Custom Properties
+   =========================== */
+:root {
+  --color-bg: #060612;
+  --color-surface: rgba(12, 12, 30, 0.85);
+  --color-surface-elevated: rgba(20, 20, 50, 0.9);
+  --color-primary: #ff4500;
+  --color-primary-glow: rgba(255, 69, 0, 0.4);
+  --color-amber: #ff8c00;
+  --color-text-primary: #f0f0ff;
+  --color-text-secondary: #8080a8;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-glow: rgba(255, 69, 0, 0.25);
+  --color-success: #00e676;
+  --color-warning: #ffa726;
+  --color-error: #ff1744;
+  --font-primary: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 40px rgba(255, 69, 0, 0.2);
+}
+
+/* ===========================
+   Reset & Base
+   =========================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===========================
+   Premium Scrollbar
+   =========================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(6, 6, 18, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 69, 0, 0.3);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 69, 0, 0.6);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ===========================
+   Selection
+   =========================== */
+::selection {
+  background: rgba(255, 69, 0, 0.25);
+  color: #ffffff;
+}
+
+/* ===========================
+   Premium Keyframe Animations
+   =========================== */
+
+/* Pulse / Heartbeat for fire alerts */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(0.97); }
+}
+
+/* Fire glow animation */
+@keyframes fireGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 69, 0, 0.5), 0 0 16px rgba(255, 69, 0, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.8), 0 0 40px rgba(255, 140, 0, 0.5), 0 0 60px rgba(255, 69, 0, 0.2); }
+}
+
+/* Status dot — live indicator */
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); opacity: 1; }
+  50% { box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); opacity: 0.8; }
+}
+
+/* Shimmer / shine effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(200%) skewX(-12deg); }
+}
+
+/* Float animation for background orbs */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -15px) scale(1.05); }
+  66% { transform: translate(-10px, 10px) scale(0.97); }
+}
+
+/* Float reversed */
+@keyframes floatReverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-20px, 15px) scale(0.97); }
+  66% { transform: translate(15px, -8px) scale(1.03); }
+}
+
+/* Scan-line sweep */
+@keyframes scanLine {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Rotate animation for loading icons */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Bounce in for notifications */
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+  0% { transform: translateY(16px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Number count flicker */
+@keyframes numberFlicker {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.8; }
+  75% { opacity: 0.9; }
+}
+
+/* Gradient border animation */
+@keyframes gradientRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Alert flash */
+@keyframes alertFlash {
+  0%, 100% { background: rgba(255, 23, 68, 0.1); }
+  50% { background: rgba(255, 23, 68, 0.2); }
+}
+
+/* ===========================
+   Animation Utility Classes
+   =========================== */
+.pulse-animation {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.fire-glow-animation {
+  animation: fireGlow 2s ease-in-out infinite;
+}
+
+.status-pulse {
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.float-animation {
+  animation: float 12s ease-in-out infinite;
+}
+
+.float-reverse-animation {
+  animation: floatReverse 15s ease-in-out infinite;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.bounce-in {
+  animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+/* ===========================
+   Glass Utility Classes
+   =========================== */
+.glass {
+  background: rgba(12, 12, 30, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-strong {
+  background: rgba(6, 6, 18, 0.92);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(12, 12, 32, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ===========================
+   Gradient Text Utilities
+   =========================== */
+.gradient-text {
+  background: linear-gradient(135deg, #ff4500 0%, #ff8c00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-cool {
+  background: linear-gradient(135deg, #29b6f6 0%, #7c4dff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-success {
+  background: linear-gradient(135deg, #00e676 0%, #00bcd4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===========================
+   Shimmer Overlay
+   =========================== */
+.shimmer-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  animation: shimmer 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ===========================
+   Status / Alert Level Colors
+   =========================== */
+.status-safe {
+  color: var(--color-success);
+}
+
+.status-warning {
+  color: var(--color-warning);
+}
+
+.status-alert {
+  color: var(--color-primary);
+}
+
+.status-critical {
+  color: var(--color-error);
+}
+
+/* ===========================
+   Fire Alert Card Styles
+   =========================== */
+.fire-alert {
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.12), rgba(255, 140, 0, 0.08));
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  animation: alertFlash 1.5s ease-in-out infinite;
+}
+
+.fire-critical {
+  animation: fireGlow 1s ease-in-out infinite;
+}
+
+/* ===========================
+   Live Indicator Dot
+   =========================== */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  display: inline-block;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.live-dot-warning {
+  background: var(--color-warning);
+  animation: statusPulse 1.5s ease-in-out infinite;
+}
+
+.live-dot-error {
+  background: var(--color-error);
+  animation: statusPulse 1s ease-in-out infinite;
+}
+
+/* ===========================
+   Premium Neon Badge
+   =========================== */
+.neon-badge-fire {
+  background: rgba(255, 69, 0, 0.12) !important;
+  border: 1px solid rgba(255, 69, 0, 0.4) !important;
+  color: #ff6b35 !important;
+  text-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
+}
+
+.neon-badge-success {
+  background: rgba(0, 230, 118, 0.08) !important;
+  border: 1px solid rgba(0, 230, 118, 0.35) !important;
+  color: var(--color-success) !important;
+  text-shadow: 0 0 8px rgba(0, 230, 118, 0.4);
+}
+
+.neon-badge-warning {
+  background: rgba(255, 167, 38, 0.08) !important;
+  border: 1px solid rgba(255, 167, 38, 0.35) !important;
+  color: var(--color-warning) !important;
+}
+
+.neon-badge-error {
+  background: rgba(255, 23, 68, 0.08) !important;
+  border: 1px solid rgba(255, 23, 68, 0.35) !important;
+  color: var(--color-error) !important;
+  text-shadow: 0 0 8px rgba(255, 23, 68, 0.4);
+}
+
+/* ===========================
+   Page Entry Animation
+   =========================== */
+.page-enter {
+  animation: fadeInUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* ===========================
+   Gradient Background Orbs
+   =========================== */
+.bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.bg-orb-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(255, 69, 0, 0.06) 0%, transparent 70%);
+  animation: float 18s ease-in-out infinite;
+}
+
+.bg-orb-2 {
+  width: 300px;
+  height: 300px;
+  bottom: 10%;
+  left: 5%;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 70%);
+  animation: floatReverse 22s ease-in-out infinite;
+}
+
+.bg-orb-3 {
+  width: 250px;
+  height: 250px;
+  top: 40%;
+  right: 20%;
+  background: radial-gradient(circle, rgba(100, 0, 255, 0.03) 0%, transparent 70%);
+  animation: float 25s ease-in-out infinite reverse;
+}
